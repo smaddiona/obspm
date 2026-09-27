@@ -143,6 +143,19 @@ Le workflow in `.github/workflows` compilano il plugin per **macOS, Windows e Ub
 | *Actions → Dispatch → Run workflow* | Build manuale |
 | Tag `X.Y.Z` (es. `git tag 1.0.0 && git push --tags`) | Build + pacchetti installer + **bozza di Release** con tutti i file |
 
+### Release
+
+```sh
+scripts/release.sh          # 1.0.0 -> 1.0.1
+scripts/release.sh minor    # 1.0.0 -> 1.1.0
+scripts/release.sh major    # 1.0.0 -> 2.0.0
+scripts/release.sh 1.2.0-beta1
+```
+
+Lo script (da `main`, non indietro rispetto a `origin`) aggiorna la versione in `buildspec.json`, fa **un unico commit**
+con tutte le modifiche in sospeso e messaggio `patch` / `minor` / `major` (o la versione esplicita), crea il tag
+e pusha: il tag avvia la build di release. A build finita, pubblica la bozza dalla pagina **Releases**.
+
 La versione è in `buildspec.json`. Per firmare/notarizzare su macOS configura i secret descritti nella
 [wiki del plugin template](https://github.com/obsproject/obs-plugintemplate/wiki); senza, i pacchetti macOS sono non firmati.
 
